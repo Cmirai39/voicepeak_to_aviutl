@@ -178,20 +178,26 @@ if __name__ == "__main__":
             fr = wr.getframerate()
             fn = wr.getnframes()
         frame_length = int(fn/fr*int(exedit_object["init"]["rate"]))
-        aviutl_object = voicepeak_objects[voice_type]
+        if voice_type in voicepeak_objects.keys():
+            aviutl_object = voicepeak_objects[voice_type]
+        else:
+            raise Exception("テンプレートのexoファイルに、{}の設定テキストオブジェクトが存在しません".format(voice_type))
         with open(txt_path, "r", encoding="utf-8") as f:
             text = f.read().strip()
         
 
         #音声オブジェクトの設定
-        audio_object.section_name = str(section_number)
-        audio_object["0"]["file"] = audio_path
-        audio_object["init"]["start"] = str(start)
-        audio_object["0"]["動画ファイルと連携"]=str(0)
-        audio_object["init"]["end"] = str(start + frame_length)
-        audio_object["init"]["layer"] = str(1)
-        exo_outputs += audio_object.get_exo_format()
-        section_number += 1
+        if audio_object:
+            audio_object.section_name = str(section_number)
+            audio_object["0"]["file"] = audio_path
+            audio_object["init"]["start"] = str(start)
+            audio_object["0"]["動画ファイルと連携"]=str(0)
+            audio_object["init"]["end"] = str(start + frame_length)
+            audio_object["init"]["layer"] = str(1)
+            exo_outputs += audio_object.get_exo_format()
+            section_number += 1
+        else:
+            raise Exception("テンプレートのexoファイルに音声オブジェクトがありません")
 
         #テキストオブジェクトの設定
         aviutl_object.section_name = str(section_number)
