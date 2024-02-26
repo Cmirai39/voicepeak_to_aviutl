@@ -1,3 +1,3 @@
-exo_path=test_template.exo_path
+exo_path=test_template.exo
 voicepeak_output_path=音声
 wait_frame=15

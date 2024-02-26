@@ -5,19 +5,13 @@ from collections import OrderedDict
 import os
 import glob
 
-VOICEPEAK_VOICES = ["女性1","女性2","女性3","男性1","男性2","男性3","女の子"]
-
 def check_voicepeak_voice(text:str) -> str:
     """
-    テキストにvoicepeakの音声の種類が含まれているかをチェックする
+    voicepeakの音声の種類を取得する
     params:
         text: チェックしたいテキスト
     """
-    for i in VOICEPEAK_VOICES:
-        if i in text:
-            return i
-    else:
-        return None
+    return text.split("-")[1]
     
 def text2hex_str(text:str) -> str:
     """
@@ -149,8 +143,6 @@ if __name__ == "__main__":
            continue
 
         if i["0"]["_name"] == "テキスト" :
-            if not (hex_str2text(i["0"]["text"]) in VOICEPEAK_VOICES):
-                continue
             voicepeak_objects[hex_str2text(i["0"]["text"])] = i
         elif i["0"]["_name"] == "音声ファイル":
             audio_object = i
